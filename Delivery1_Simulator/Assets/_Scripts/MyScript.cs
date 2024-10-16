@@ -28,7 +28,8 @@ public class MyScript : MonoBehaviour
 
     private void HandleNewPlayer(string name, string country, int age, float gender, DateTime date)
     {
-        StartCoroutine(UploadPlayer(name, country, date, gender, age));
+        StartCoroutine(UploadPlayer(name, country, age, gender, date));
+        CallbackEvents.OnAddPlayerCallback(1);
     }
 
     private void HandleNewSession(DateTime date, uint playerID)
@@ -46,16 +47,16 @@ public class MyScript : MonoBehaviour
         StartCoroutine(UploadItem(item, date, playerID));
     }
 
-    IEnumerator UploadPlayer(string name, string country, DateTime date, float gender, int age)
+    IEnumerator UploadPlayer(string name, string country, int age, float gender, DateTime date)
     {
         WWWForm form = new WWWForm();
-        form.AddField("Name", name);
-        form.AddField("Country", country);
-        form.AddField("Date", date.ToString("yyyy-MM-dd HH:mm:ss"));
-        form.AddField("Gender", gender.ToString());
-        form.AddField("Age", age.ToString());
+        form.AddField("name", name);
+        form.AddField("country", country);
+        form.AddField("age", age.ToString());
+        form.AddField("gender", gender.ToString(System.Globalization.CultureInfo.InvariantCulture));
+        form.AddField("date", date.ToString("yyyy-MM-dd HH:mm:ss"));
 
-        using (UnityWebRequest www = UnityWebRequest.Post("https://citmalumnes.upc.es/~hangx/Player_Data.php", form))
+        using (UnityWebRequest www = UnityWebRequest.Post("https://citmalumnes.upc.es/~antoniorr14/Player_Data.php", form))
         {
             yield return www.SendWebRequest();
 
@@ -85,7 +86,7 @@ public class MyScript : MonoBehaviour
         form.AddField("User_ID", currentUserId.ToString());
         form.AddField("Start_Session", date.ToString("yyyy-MM-dd HH:mm:ss"));
 
-        string url = "https://citmalumnes.upc.es/~hangx/Session_Data.php";
+        string url = "https://citmalumnes.upc.es/~antoniorr14/NewSession.php";
         UnityWebRequest www = UnityWebRequest.Post(url, form);
         yield return www.SendWebRequest();
 
