@@ -29,7 +29,6 @@ public class MyScript : MonoBehaviour
     private void HandleNewPlayer(string name, string country, int age, float gender, DateTime date)
     {
         StartCoroutine(UploadPlayer(name, country, age, gender, date));
-        CallbackEvents.OnAddPlayerCallback(1);
     }
 
     private void HandleNewSession(DateTime date, uint playerID)
@@ -82,9 +81,15 @@ public class MyScript : MonoBehaviour
 
     IEnumerator UploadStartSession(DateTime date, uint playerID)
     {
+        if (currentUserId == 0)
+        {
+            UnityEngine.Debug.LogError("User ID is not set, cannot start session");
+            yield break;  // Salir de la coroutine si no hay un UserId válido
+        }
+
         WWWForm form = new WWWForm();
-        form.AddField("User_ID", currentUserId.ToString());
-        form.AddField("Start_Session", date.ToString("yyyy-MM-dd HH:mm:ss"));
+        form.AddField("UserId", currentUserId.ToString());
+        form.AddField("StartSession", date.ToString("yyyy-MM-dd HH:mm:ss"));
 
         string url = "https://citmalumnes.upc.es/~antoniorr14/NewSession.php";
         UnityWebRequest www = UnityWebRequest.Post(url, form);

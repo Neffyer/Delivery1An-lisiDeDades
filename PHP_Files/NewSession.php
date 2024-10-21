@@ -14,18 +14,18 @@ if ($conn->connect_error) {
 
 // Recibir los datos enviados desde Unity
 $userid = isset($_POST['UserId']) ? intval($_POST['UserId']) : 0;
-$starttime = isset($_POST['StartTime']) ? $_POST['StartTime'] : "";
+$starttime = isset($_POST['StartSession']) ? $_POST['StartSession'] : "";
 
 if (!empty($userid) && !empty($starttime)) {
     // Usar una sentencia preparada para mayor seguridad
-    $stmt = $conn->prepare("INSERT INTO NewSessions (UserId, StartTime, EndTime) VALUES (?, ?, ?)");
-    $stmt->bind_param("iss", $userid, $starttime);
+    $stmt = $conn->prepare("INSERT INTO NewSessions (UserId, StartSession) VALUES (?, ?)");
+    $stmt->bind_param("is", $userid, $starttime);
 
     if ($stmt->execute()) {
         $last_id = $stmt->insert_id;  // Obtener el último ID insertado
-        echo "Record inserted successfully. Last inserted ID is: " . $last_id;
+        echo $last_id;
     } else {
-        echo "ERROR no va: " . $stmt->error;
+        echo "ERROR: " . $stmt->error;
     }
 
     $stmt->close();  // Cerrar la sentencia preparada
