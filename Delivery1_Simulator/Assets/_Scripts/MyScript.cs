@@ -142,7 +142,6 @@ public class MyScript : MonoBehaviour
     {
         WWWForm form = new WWWForm();
         form.AddField("Item", item.ToString());
-        form.AddField("User_ID", currentUserId.ToString());
         form.AddField("Session_ID", currentSessionId.ToString());
         form.AddField("Buy_Date", date.ToString("yyyy-MM-dd HH:mm:ss"));
 

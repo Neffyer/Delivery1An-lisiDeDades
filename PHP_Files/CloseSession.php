@@ -17,7 +17,7 @@ $endSession = $_POST["End_Session"];
 
 error_log("Received end session data: UserId={$sessionId}, End_Session={$endSession}");
 
-$stmt = $conn->prepare("UPDATE SessionsData SET `endSession` = ? WHERE `sessionId` = ?");
+$stmt = $conn->prepare("UPDATE SessionsData SET `EndSession` = ? WHERE `UserId` = ?");
 $stmt->bind_param("si", $endSession, $sessionId);
 
 if ($stmt->execute()) {

@@ -13,16 +13,15 @@ if ($conn->connect_error) {
 }
 
 $itemId = isset($_POST["Item"]) ? $_POST['Item'] : 0;
-$userId = isset($_POST["User_ID"]) ? $_POST['User_ID'] : 0;
 $sessionId = isset($_POST["Session_ID"]) ? $_POST['Session_ID'] : 0;
 $buyDate = isset($_POST['Buy_Date']) ? $_POST['Buy_Date'] : "";
 
-error_log("Received purchase data: User_ID={$userId}, Session_ID={$sessionId}, Item={$itemId}, Buy_Date={$buyDate}");
+error_log("Received purchase data: Session_ID={$sessionId}, Item={$itemId}, Buy_Date={$buyDate}");
 
-if(!empty($itemId) && !empty($userId) && !empty($sessionId) && !empty($buyDate))
+if(!empty($itemId) && !empty($sessionId) && !empty($buyDate))
 {
-    $stmt = $conn->prepare("INSERT INTO `Purchases`(`itemId`, `userId`, `sessionId`, `buyDate`) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("iiis", $itemId, $userId, $sessionId, $buyDate);
+    $stmt = $conn->prepare("INSERT INTO `Purchases`(`itemId`, `buyDate`, `sessionId`) VALUES (?, ?, ?)");
+    $stmt->bind_param("isi", $itemId, $buyDate, $sessionId);
     
     if ($stmt->execute()) {
         echo $conn->insert_id;
