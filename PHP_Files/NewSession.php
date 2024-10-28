@@ -18,7 +18,7 @@ $starttime = isset($_POST['StartSession']) ? $_POST['StartSession'] : "";
 
 if (!empty($userid) && !empty($starttime)) {
     // Usar una sentencia preparada para mayor seguridad
-    $stmt = $conn->prepare("INSERT INTO NewSessions (UserId, StartSession) VALUES (?, ?)");
+    $stmt = $conn->prepare("INSERT INTO SessionsData (UserId, StartSession) VALUES (?, ?)");
     $stmt->bind_param("is", $userid, $starttime);
 
     if ($stmt->execute()) {

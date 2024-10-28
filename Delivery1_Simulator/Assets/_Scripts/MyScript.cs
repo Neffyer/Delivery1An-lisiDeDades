@@ -118,11 +118,11 @@ public class MyScript : MonoBehaviour
     IEnumerator UploadEndSession(DateTime date, uint playerID)
     {
         WWWForm form = new WWWForm();
-        form.AddField("User_ID", currentUserId.ToString());
+        form.AddField("User_Id", currentUserId.ToString());
         form.AddField("End_Session", date.ToString("yyyy-MM-dd HH:mm:ss"));
         form.AddField("Session_ID", currentSessionId.ToString());
 
-        string url = "https://citmalumnes.upc.es/~hangx/Close_Session_Data.php";
+        string url = "https://citmalumnes.upc.es/~antoniorr14/CloseSession.php";
         UnityWebRequest www = UnityWebRequest.Post(url, form);
         yield return www.SendWebRequest();
 
@@ -163,7 +163,7 @@ public class MyScript : MonoBehaviour
             }
             else
             {
-                UnityEngine.Debug.LogError("Invalid purchase ID received: " + www.downloadHandler.text);
+                UnityEngine.Debug.LogError("Invalid purchase ID received: " + www.downloadHandler.text + "ID: " + parsedId);
             }
         }
     }
