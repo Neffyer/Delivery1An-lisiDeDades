@@ -146,7 +146,7 @@ public class MyScript : MonoBehaviour
         form.AddField("Session_ID", currentSessionId.ToString());
         form.AddField("Buy_Date", date.ToString("yyyy-MM-dd HH:mm:ss"));
 
-        UnityWebRequest www = UnityWebRequest.Post("https://citmalumnes.upc.es/~hangx/Purchase_Data.php", form);
+        UnityWebRequest www = UnityWebRequest.Post("https://citmalumnes.upc.es/~antoniorr14/Purchase_Data.php", form);
         yield return www.SendWebRequest();
 
         if (www.result != UnityWebRequest.Result.Success)
