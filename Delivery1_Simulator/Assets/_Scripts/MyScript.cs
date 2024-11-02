@@ -70,6 +70,7 @@ public class MyScript : MonoBehaviour
                 {
                     currentUserId = parsedId;
                     CallbackEvents.OnAddPlayerCallback.Invoke(currentUserId);
+                    Debug.Log("Uploaded Player with ID: " + currentUserId);
                 }
                 else
                 {

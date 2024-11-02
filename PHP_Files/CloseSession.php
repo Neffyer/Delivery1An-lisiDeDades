@@ -12,12 +12,12 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sessionId = $_POST["User_Id"];
+$sessionId = $_POST["Session_ID"];
 $endSession = $_POST["End_Session"];
 
-error_log("Received end session data: UserId={$sessionId}, End_Session={$endSession}");
+error_log("Received end session data: Session_ID={$sessionId}, End_Session={$endSession}");
 
-$stmt = $conn->prepare("UPDATE SessionsData SET `EndSession` = ? WHERE `UserId` = ?");
+$stmt = $conn->prepare("UPDATE SessionsData SET `EndSession` = ? WHERE `id` = ?");
 $stmt->bind_param("si", $endSession, $sessionId);
 
 if ($stmt->execute()) {
