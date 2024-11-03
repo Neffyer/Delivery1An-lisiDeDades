@@ -6,9 +6,9 @@ using UnityEngine.Networking;
 
 public class MyScript : MonoBehaviour
 {
-    uint currentUserId;
-    uint currentSessionId;
-    uint currentPurchaseId;
+    uint currentUserId;    // Stores the ID of the current user
+    uint currentSessionId; // Stores the ID of the current session
+    uint currentPurchaseId; // Stores the ID of the current purchase
 
     private void OnEnable()
     {
@@ -46,8 +46,10 @@ public class MyScript : MonoBehaviour
         StartCoroutine(UploadItem(item, date, playerID));
     }
 
+    // Coroutine to upload player data to the server
     IEnumerator UploadPlayer(string name, string country, int age, float gender, DateTime date)
     {
+        // Create a form with the necessary fields
         WWWForm form = new WWWForm();
         form.AddField("name", name);
         form.AddField("country", country);
@@ -55,21 +57,24 @@ public class MyScript : MonoBehaviour
         form.AddField("gender", gender.ToString(System.Globalization.CultureInfo.InvariantCulture));
         form.AddField("date", date.ToString("yyyy-MM-dd HH:mm:ss"));
 
+        // Send form data to the server
         using (UnityWebRequest www = UnityWebRequest.Post("https://citmalumnes.upc.es/~antoniorr14/Player_Data.php", form))
         {
             yield return www.SendWebRequest();
 
+            // Check for success or error in the response
             if (www.result != UnityWebRequest.Result.Success)
             {
                 UnityEngine.Debug.LogError("Player data upload failed: " + www.error);
             }
             else
             {
+                // Parse the response text to retrieve the player ID
                 string answer = www.downloadHandler.text.Trim(new char[] { '\uFEFF', '\u200B', ' ', '\t', '\r', '\n' });
                 if (uint.TryParse(answer, out uint parsedId) && parsedId > 0)
                 {
-                    currentUserId = parsedId;
-                    CallbackEvents.OnAddPlayerCallback.Invoke(currentUserId);
+                    currentUserId = parsedId;  // Set the current user ID
+                    CallbackEvents.OnAddPlayerCallback.Invoke(currentUserId);  // Trigger callback with new player ID
                     Debug.Log("Uploaded Player with ID: " + currentUserId);
                 }
                 else
@@ -80,29 +85,35 @@ public class MyScript : MonoBehaviour
         }
     }
 
+    // Coroutine to upload session start data to the server
     IEnumerator UploadStartSession(DateTime date, uint playerID)
     {
+        // Check if currentUserId is valid before starting session
         if (currentUserId == 0)
         {
             UnityEngine.Debug.LogError("User ID is not set, cannot start session");
-            yield break;  // Salir de la coroutine si no hay un UserId válido
+            yield break;  // Exit coroutine if UserId is not valid
         }
 
+        // Create a form with the necessary fields
         WWWForm form = new WWWForm();
         form.AddField("UserId", currentUserId.ToString());
         form.AddField("StartSession", date.ToString("yyyy-MM-dd HH:mm:ss"));
 
+        // URL to post the data to
         string url = "https://citmalumnes.upc.es/~antoniorr14/NewSession.php";
         UnityWebRequest www = UnityWebRequest.Post(url, form);
         yield return www.SendWebRequest();
 
+        // Check for success or error in the response
         if (www.result == UnityWebRequest.Result.Success)
         {
+            // Parse the response text to retrieve the session ID
             string answer = www.downloadHandler.text.Trim(new char[] { '\uFEFF', '\u200B', ' ', '\t', '\r', '\n' });
             if (uint.TryParse(answer, out uint parsedId) && parsedId > 0)
             {
-                currentSessionId = parsedId;
-                CallbackEvents.OnNewSessionCallback.Invoke(currentSessionId);
+                currentSessionId = parsedId;  // Set the current session ID
+                CallbackEvents.OnNewSessionCallback.Invoke(currentSessionId);  // Trigger callback with new session ID
             }
             else
             {
@@ -115,51 +126,57 @@ public class MyScript : MonoBehaviour
         }
     }
 
-
+    // Coroutine to upload session end data to the server
     IEnumerator UploadEndSession(DateTime date, uint playerID)
     {
+        // Create a form with the necessary fields
         WWWForm form = new WWWForm();
         form.AddField("User_Id", currentUserId.ToString());
         form.AddField("End_Session", date.ToString("yyyy-MM-dd HH:mm:ss"));
         form.AddField("Session_ID", currentSessionId.ToString());
 
+        // URL to post the data to
         string url = "https://citmalumnes.upc.es/~antoniorr14/CloseSession.php";
         UnityWebRequest www = UnityWebRequest.Post(url, form);
         yield return www.SendWebRequest();
 
+        // Check for success or error in the response
         if (www.result == UnityWebRequest.Result.Success)
         {
-            CallbackEvents.OnEndSessionCallback.Invoke(currentSessionId);
+            CallbackEvents.OnEndSessionCallback.Invoke(currentSessionId);  // Trigger callback for session end
         }
         else
         {
             UnityEngine.Debug.LogError("Session end data upload failed: " + www.error);
         }
-
     }
 
-
+    // Coroutine to upload purchase data to the server
     IEnumerator UploadItem(int item, DateTime date, uint playerID)
     {
+        // Create a form with the necessary fields
         WWWForm form = new WWWForm();
         form.AddField("Item", item.ToString());
         form.AddField("Session_ID", currentSessionId.ToString());
         form.AddField("Buy_Date", date.ToString("yyyy-MM-dd HH:mm:ss"));
 
+        // URL to post the data to
         UnityWebRequest www = UnityWebRequest.Post("https://citmalumnes.upc.es/~antoniorr14/Purchase_Data.php", form);
         yield return www.SendWebRequest();
 
+        // Check for success or error in the response
         if (www.result != UnityWebRequest.Result.Success)
         {
             UnityEngine.Debug.LogError("Purchase data upload failed: " + www.error);
         }
         else
         {
+            // Parse the response text to retrieve the purchase ID
             string answer = www.downloadHandler.text.Trim(new char[] { '\uFEFF', '\u200B', ' ', '\t', '\r', '\n' });
             if (uint.TryParse(answer, out uint parsedId) && parsedId > 0)
             {
-                currentPurchaseId = parsedId;
-                CallbackEvents.OnItemBuyCallback.Invoke(playerID);
+                currentPurchaseId = parsedId;  // Set the current purchase ID
+                CallbackEvents.OnItemBuyCallback.Invoke(playerID);  // Trigger callback for item purchase
             }
             else
             {

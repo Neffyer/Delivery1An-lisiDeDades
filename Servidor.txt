@@ -4,3 +4,99 @@ antoniorr14
 
 hangx
 7vGPx2sehzBY
+
+
+MySQL hostname: citmalumnes.upc.es
+
+
+--- ARPPU ---
+SELECT 
+    DATE_FORMAT(S.StartSession, '%Y-%m') AS Month,
+    (SUM(I.Price) / COUNT(DISTINCT S.UserId)) AS ARPPU
+FROM 
+    SessionsData S
+INNER JOIN 
+    Purchases P ON S.id = P.sessionId
+INNER JOIN 
+    Items I ON P.itemId = I.Id
+GROUP BY 
+    Month
+ORDER BY 
+    Month;
+
+
+--- ARPU ---
+SELECT 
+    DATE_FORMAT(U.Install_Date, '%Y-%m') AS Month,
+    (SUM(I.Price) / COUNT(DISTINCT U.ID)) AS ARPU
+FROM 
+    UsersInfo U
+LEFT JOIN 
+    SessionsData S ON U.ID = S.UserId
+LEFT JOIN 
+    Purchases P ON S.id = P.sessionId
+LEFT JOIN 
+    Items I ON P.itemId = I.Id
+GROUP BY 
+    Month
+ORDER BY 
+    Month;
+
+--- STICKINESS ---
+SELECT 
+    DATE_FORMAT(StartSession, '%Y-%m') AS Month,
+    (COUNT(DISTINCT DATE(StartSession), UserId) / COUNT(DISTINCT UserId)) AS Stickiness
+FROM 
+    SessionsData
+GROUP BY 
+    Month
+ORDER BY 
+    Month;
+
+
+-- DAU ---
+SELECT 
+    DATE(StartSession) AS Day,
+    COUNT(DISTINCT UserId) AS DAU
+FROM 
+    SessionsData
+GROUP BY 
+    Day
+ORDER BY 
+    Day;
+
+--- MAU ---
+SELECT 
+    DATE_FORMAT(StartSession, '%Y-%m') AS Month,
+    COUNT(DISTINCT UserId) AS MAU
+FROM 
+    SessionsData
+GROUP BY 
+    Month
+ORDER BY 
+    Month;
+
+--- Sesiones por usuario por mes ---
+SELECT 
+    DATE_FORMAT(StartSession, '%Y-%m') AS Month,
+    UserId,
+    COUNT(*) AS Num_Sessions
+FROM 
+    SessionsData
+GROUP BY 
+    Month, UserId
+ORDER BY 
+    Month;
+
+--- Duración promedio de sesión ---
+SELECT 
+    DATE_FORMAT(StartSession, '%Y-%m') AS Month,
+    UserId,
+    AVG(TIMESTAMPDIFF(SECOND, StartSession, EndSession)) AS Avg_Session_Length
+FROM 
+    SessionsData
+GROUP BY 
+    Month, UserId
+ORDER BY 
+    Month;
+

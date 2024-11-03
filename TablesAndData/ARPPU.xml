@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:x="urn:schemas-microsoft-com:office:excel"
+xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+xmlns:html="http://www.w3.org/TR/REC-html40">
+<Worksheet ss:Name="Table1">
+	<Table>
+		<Column ss:Index="1" ss:AutoFitWidth="0" ss:Width="110"/>
+		<Row>
+			<Cell><Data ss:Type="String">Month</Data></Cell>
+			<Cell><Data ss:Type="String">ARPPU</Data></Cell>
+		</Row>
+
+		<Row>
+			<Cell><Data ss:Type="String">2022-01</Data></Cell>
+			<Cell><Data ss:Type="Number">15.319999694824219</Data></Cell>
+		</Row>
+		<Row>
+			<Cell><Data ss:Type="String">2022-02</Data></Cell>
+			<Cell><Data ss:Type="Number">11.77357120173318</Data></Cell>
+		</Row>
+		<Row>
+			<Cell><Data ss:Type="String">2022-03</Data></Cell>
+			<Cell><Data ss:Type="Number">13.18899974822998</Data></Cell>
+		</Row>
+		<Row>
+			<Cell><Data ss:Type="String">2022-04</Data></Cell>
+			<Cell><Data ss:Type="Number">10.988571218081884</Data></Cell>
+		</Row>
+		<Row>
+			<Cell><Data ss:Type="String">2022-05</Data></Cell>
+			<Cell><Data ss:Type="Number">1.53363637490706</Data></Cell>
+		</Row>
+		<Row>
+			<Cell><Data ss:Type="String">2022-06</Data></Cell>
+			<Cell><Data ss:Type="Number">22.630312085151672</Data></Cell>
+		</Row>
+		<Row>
+			<Cell><Data ss:Type="String">2022-07</Data></Cell>
+			<Cell><Data ss:Type="Number">19.90299963951111</Data></Cell>
+		</Row>
+		<Row>
+			<Cell><Data ss:Type="String">2022-08</Data></Cell>
+			<Cell><Data ss:Type="Number">35.22093699127436</Data></Cell>
+		</Row>
+		<Row>
+			<Cell><Data ss:Type="String">2022-09</Data></Cell>
+			<Cell><Data ss:Type="Number">22.418064225104548</Data></Cell>
+		</Row>
+		<Row>
+			<Cell><Data ss:Type="String">2022-10</Data></Cell>
+			<Cell><Data ss:Type="Number">26.01565168214881</Data></Cell>
+		</Row>
+		<Row>
+			<Cell><Data ss:Type="String">2022-11</Data></Cell>
+			<Cell><Data ss:Type="Number">45.05108041376681</Data></Cell>
+		</Row>
+		<Row>
+			<Cell><Data ss:Type="String">2022-12</Data></Cell>
+			<Cell><Data ss:Type="Number">24.08639958381653</Data></Cell>
+		</Row>	</Table>
+</Worksheet>
+</Workbook>
